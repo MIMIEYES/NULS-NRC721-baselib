@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.nuls.token;
+package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Msg;
 import io.nuls.contract.sdk.annotation.View;
 import io.nuls.token.interfaces.INRC721;
 import io.nuls.token.model.Counter;
+import io.nuls.token.role.Minter;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ import static io.nuls.contract.sdk.Utils.require;
  * @author: PierreLuo
  * @date: 2019-06-04
  */
-public class NRC721Base implements INRC721 {
+public class NRC721Base extends Minter implements INRC721 {
 
     private Map<BigInteger, Address> tokenOwner = new HashMap<BigInteger, Address>();
     private Map<BigInteger, Address> tokenApprovals = new HashMap<BigInteger, Address>();
@@ -177,6 +178,7 @@ public class NRC721Base implements INRC721 {
     }
 
     protected void mintBase(Address to, BigInteger tokenId) {
+        onlyMinter();
         require(!exists(tokenId), "NRC721: token already minted");
 
         tokenOwner.put(tokenId, to);

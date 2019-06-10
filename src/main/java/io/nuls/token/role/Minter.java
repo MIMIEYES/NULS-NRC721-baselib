@@ -21,13 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.nuls.token;
+package io.nuls.token.role;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.Msg;
 import io.nuls.contract.sdk.annotation.View;
-import io.nuls.token.interfaces.INRC721Metadata;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,45 +34,32 @@ import static io.nuls.contract.sdk.Utils.require;
 
 /**
  * @author: PierreLuo
- * @date: 2019-06-05
+ * @date: 2019-06-10
  */
-public class NRC721Metadata extends NRC721Base implements INRC721Metadata {
+public class Minter {
 
-    private String name;
-    private String symbol;
-    private Map<BigInteger, String> tokenURIs = new HashMap<BigInteger, String>();
+    private Map<Address, Boolean> minters = new HashMap<Address, Boolean>();
 
-    public NRC721Metadata(String name, String symbol) {
-        this.name = name;
-        this.symbol = symbol;
+    protected Minter() {
+        minters.put(Msg.sender(), true);
     }
 
-    @Override
+    protected void onlyMinter() {
+        require(isMinter(Msg.sender()), "MinterRole: caller does not have the Minter role");
+    }
+
     @View
-    public String name() {
-        return name;
+    public boolean isMinter(Address address) {
+        return minters.containsKey(address);
     }
 
-    @Override
-    @View
-    public String symbol() {
-        return symbol;
+    public void addMinter(Address address) {
+        onlyMinter();
+        minters.put(address, true);
     }
 
-    @Override
-    @View
-    public String tokenURI(BigInteger tokenId) {
-        require(exists(tokenId), "NRC721Metadata: URI query for nonexistent token");
-        return tokenURIs.get(tokenId);
+    public void renounceMinter() {
+        minters.remove(Msg.sender());
     }
 
-    public void setTokenURIs(BigInteger tokenId, String uri) {
-        require(exists(tokenId), "NRC721Metadata: URI set of nonexistent token");
-        tokenURIs.put(tokenId, uri);
-    }
-
-    protected void burnBase(Address owner, BigInteger tokenId) {
-        super.burnBase(owner, tokenId);
-        tokenURIs.remove(tokenId);
-    }
 }

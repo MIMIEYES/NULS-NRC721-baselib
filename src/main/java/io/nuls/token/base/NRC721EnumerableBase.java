@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.nuls.token;
+package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.annotation.View;
@@ -38,7 +38,7 @@ import static io.nuls.contract.sdk.Utils.require;
  * @author: PierreLuo
  * @date: 2019-06-05
  */
-public class NRC721Enumerable extends NRC721Base implements INRC721Enumerable {
+public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerable {
 
     private Map<Address, LinkedList<BigInteger>> ownedTokens = new HashMap<Address, LinkedList<BigInteger>>();
     private Map<BigInteger, Integer> ownedTokensIndex = new HashMap<BigInteger, Integer>();
