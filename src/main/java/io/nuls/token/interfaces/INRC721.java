@@ -26,7 +26,6 @@ package io.nuls.token.interfaces;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Event;
-import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 
 import java.math.BigInteger;
@@ -38,10 +37,12 @@ import java.math.BigInteger;
 public interface INRC721 {
 
     @View
-    int balanceOf(@Required Address owner);
+    int balanceOf(Address owner);
 
     @View
     Address ownerOf(BigInteger tokenId);
+
+    void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data);
 
     void safeTransferFrom(Address from, Address to, BigInteger tokenId);
 
@@ -49,21 +50,19 @@ public interface INRC721 {
 
     void approve(Address to, BigInteger tokenId);
 
-    Address getApproved(BigInteger tokenId);
-
     void setApprovalForAll(Address operator, boolean approved);
+
+    Address getApproved(BigInteger tokenId);
 
     @View
     boolean isApprovedForAll(Address owner, Address operator);
-
-    void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data);
 
     class Transfer implements Event {
         private Address from;
         private Address to;
         private BigInteger tokenId;
 
-        public Transfer(Address from, Address to, @Required BigInteger tokenId) {
+        public Transfer(Address from, Address to, BigInteger tokenId) {
             this.from = from;
             this.to = to;
             this.tokenId = tokenId;
@@ -132,7 +131,7 @@ public interface INRC721 {
         private Address approved;
         private BigInteger tokenId;
 
-        public Approval(@Required Address owner, @Required Address approved, @Required BigInteger tokenId) {
+        public Approval(Address owner, Address approved, BigInteger tokenId) {
             this.owner = owner;
             this.approved = approved;
             this.tokenId = tokenId;
@@ -203,7 +202,7 @@ public interface INRC721 {
         private Address operator;
         private Boolean approved;
 
-        public ApprovalForAll(@Required Address owner, @Required Address operator, @Required Boolean approved) {
+        public ApprovalForAll(Address owner, Address operator, Boolean approved) {
             this.owner = owner;
             this.operator = operator;
             this.approved = approved;

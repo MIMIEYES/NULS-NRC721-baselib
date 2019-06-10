@@ -25,7 +25,6 @@ package io.nuls.token;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Msg;
-import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 import io.nuls.token.interfaces.INRC721;
 import io.nuls.token.model.Counter;
