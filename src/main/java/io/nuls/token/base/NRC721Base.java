@@ -178,7 +178,6 @@ public class NRC721Base extends Minter implements INRC721 {
     }
 
     protected void mintBase(Address to, BigInteger tokenId) {
-        onlyMinter();
         require(!exists(tokenId), "NRC721: token already minted");
 
         tokenOwner.put(tokenId, to);

@@ -67,7 +67,7 @@ public class NRC721MetadataBase extends NRC721Base implements INRC721Metadata {
         return tokenURIs.get(tokenId);
     }
 
-    protected void setTokenURIs(BigInteger tokenId, String uri) {
+    protected void setTokenURI(BigInteger tokenId, String uri) {
         require(exists(tokenId), "NRC721Metadata: URI set of nonexistent token");
         tokenURIs.put(tokenId, uri);
     }
