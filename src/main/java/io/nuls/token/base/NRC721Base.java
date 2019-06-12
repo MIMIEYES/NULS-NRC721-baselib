@@ -102,7 +102,7 @@ public class NRC721Base extends Minter implements INRC721 {
     @Override
     public void setApprovalForAll(Address operator, boolean approved) {
         Address sender = Msg.sender();
-        require(operator != sender, "NRC721: approve to caller");
+        require(!operator.equals(sender), "NRC721: approve to caller");
 
         Map<Address, Boolean> approvalsMap = operatorApprovals.get(sender);
         if(approvalsMap == null) {
@@ -156,7 +156,7 @@ public class NRC721Base extends Minter implements INRC721 {
     protected boolean isApprovedOrOwner(Address spender, BigInteger tokenId) {
         require(exists(tokenId), "NRC721: operator query for nonexistent token");
         Address owner = ownerOf(tokenId);
-        return (spender.equals(owner) || getApproved(tokenId).equals(spender) || isApprovedForAll(owner, spender));
+        return (spender.equals(owner) || spender.equals(getApproved(tokenId)) || isApprovedForAll(owner, spender));
     }
 
     protected void transferFromBase(Address from, Address to, BigInteger tokenId) {
