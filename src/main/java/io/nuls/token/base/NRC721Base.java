@@ -67,6 +67,14 @@ public class NRC721Base extends Minter implements INRC721 {
     }
 
     @Override
+    public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
+        transferFrom(from, to, tokenId);
+        // checkOnNRC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onNRC721Received`函数 / data 的作用是附加备注
+        require(checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non NRC721Receiver implementer");
+
+    }
+
+    @Override
     public void safeTransferFrom(Address from, Address to, BigInteger tokenId) {
         safeTransferFrom(from, to, tokenId, "");
     }
@@ -92,14 +100,6 @@ public class NRC721Base extends Minter implements INRC721 {
     }
 
     @Override
-    @View
-    public Address getApproved(BigInteger tokenId) {
-        require(exists(tokenId), "NRC721: approved query for nonexistent token");
-
-        return tokenApprovals.get(tokenId);
-    }
-
-    @Override
     public void setApprovalForAll(Address operator, boolean approved) {
         Address sender = Msg.sender();
         require(!operator.equals(sender), "NRC721: approve to caller");
@@ -115,6 +115,14 @@ public class NRC721Base extends Minter implements INRC721 {
 
     @Override
     @View
+    public Address getApproved(BigInteger tokenId) {
+        require(exists(tokenId), "NRC721: approved query for nonexistent token");
+
+        return tokenApprovals.get(tokenId);
+    }
+
+    @Override
+    @View
     public boolean isApprovedForAll(Address owner, Address operator) {
         Map<Address, Boolean> approvalsMap = operatorApprovals.get(owner);
         if(approvalsMap == null) {
@@ -125,14 +133,6 @@ public class NRC721Base extends Minter implements INRC721 {
             return false;
         }
         return isApproved;
-    }
-
-    @Override
-    public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
-        transferFrom(from, to, tokenId);
-        // checkOnNRC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onNRC721Received`函数 / data 的作用是附加备注
-        require(checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non NRC721Receiver implementer");
-
     }
 
     protected boolean checkOnNRC721Received(Address from, Address to, BigInteger tokenId, String data) {

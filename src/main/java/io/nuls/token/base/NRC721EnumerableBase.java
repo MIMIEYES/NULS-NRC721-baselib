@@ -87,7 +87,7 @@ public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerabl
     public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
         this.transferFrom(from, to, tokenId);
         // checkOnERC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onERC721Received`函数 / data 的作用是附加备注
-        require(super.checkOnERC721Received(from, to, tokenId, data), "NRC721: transfer to non ERC721Receiver implementer");
+        require(super.checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non ERC721Receiver implementer");
     }
 
     @Override
