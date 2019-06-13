@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.nuls.token</groupId>
-    <artifactId>nrc721</artifactId>
+    <artifactId>NRC721-baselib</artifactId>
     <version>test</version>
 
     <dependencies>
