@@ -130,12 +130,12 @@ public class NRC721Base extends Minter implements INRC721 {
     @Override
     public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
         transferFrom(from, to, tokenId);
-        // checkOnERC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onERC721Received`函数 / data 的作用是附加备注
-        require(checkOnERC721Received(from, to, tokenId, data), "NRC721: transfer to non ERC721Receiver implementer");
+        // checkOnNRC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onNRC721Received`函数 / data 的作用是附加备注
+        require(checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non NRC721Receiver implementer");
 
     }
 
-    protected boolean checkOnERC721Received(Address from, Address to, BigInteger tokenId, String data) {
+    protected boolean checkOnNRC721Received(Address from, Address to, BigInteger tokenId, String data) {
         if(!to.isContract()) {
             return true;
         }
@@ -144,7 +144,7 @@ public class NRC721Base extends Minter implements INRC721 {
                 new String[]{from.toString()},
                 new String[]{tokenId.toString()},
                 new String[]{data}};
-        String returnValue = to.callWithReturnValue("onERC721Received", null, args, BigInteger.ZERO);
+        String returnValue = to.callWithReturnValue("onNRC721Received", null, args, BigInteger.ZERO);
         return Boolean.valueOf(returnValue);
     }
 
@@ -160,7 +160,7 @@ public class NRC721Base extends Minter implements INRC721 {
     }
 
     protected void transferFromBase(Address from, Address to, BigInteger tokenId) {
-        require(ownerOf(tokenId).equals(from), "ERC721: transfer of token that is not own");
+        require(ownerOf(tokenId).equals(from), "NRC721: transfer of token that is not own");
 
         clearApproval(tokenId);
 
