@@ -24,9 +24,8 @@
 package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
-import io.nuls.contract.sdk.Contract;
 import io.nuls.contract.sdk.Msg;
-import io.nuls.token.interfaces.NRC721TokenReceiver;
+import io.nuls.token.interfaces.INRC721TokenReceiver;
 import io.nuls.token.model.NRC721TransferRecord;
 
 import java.math.BigInteger;
@@ -39,7 +38,7 @@ import static io.nuls.contract.sdk.Utils.require;
  * @author: PierreLuo
  * @date: 2019-06-13
  */
-public class NRC721ReceiverBase implements NRC721TokenReceiver {
+public class NRC721ReceiverBase implements INRC721TokenReceiver {
 
     /**
      * nrc721Address

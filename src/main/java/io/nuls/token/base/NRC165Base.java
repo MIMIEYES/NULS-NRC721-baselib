@@ -23,58 +23,36 @@
  */
 package io.nuls.token.base;
 
-import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
-import io.nuls.token.interfaces.INRC721Metadata;
+import io.nuls.token.interfaces.INRC165;
+import io.nuls.token.role.Minter;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import static io.nuls.contract.sdk.Utils.require;
 
 /**
  * @author: PierreLuo
- * @date: 2019-06-05
+ * @date: 2019-06-13
  */
-public class NRC721MetadataBase extends NRC721Base implements INRC721Metadata {
+public class NRC165Base extends Minter implements INRC165 {
 
-    private String name;
-    private String symbol;
-    private Map<BigInteger, String> tokenURIs = new HashMap<BigInteger, String>();
+    private Set<String> supportedInterfaces = new HashSet<String>();
 
-    public NRC721MetadataBase(String name, String symbol) {
-        super.registerInterface("INRC721Metadata");
-        this.name = name;
-        this.symbol = symbol;
+    public NRC165Base() {
+        supportedInterfaces.add("INCR165");
     }
 
     @Override
     @View
-    public String name() {
-        return name;
+    public boolean supportsInterface(String interfaceName) {
+        return supportedInterfaces.contains(interfaceName);
     }
 
-    @Override
-    @View
-    public String symbol() {
-        return symbol;
-    }
-
-    @Override
-    @View
-    public String tokenURI(BigInteger tokenId) {
-        require(exists(tokenId), "NRC721Metadata: URI query for nonexistent token");
-        return tokenURIs.get(tokenId);
-    }
-
-    protected void setTokenURI(BigInteger tokenId, String uri) {
-        require(exists(tokenId), "NRC721Metadata: URI set of nonexistent token");
-        tokenURIs.put(tokenId, uri);
-    }
-
-    protected void burnBase(Address owner, BigInteger tokenId) {
-        super.burnBase(owner, tokenId);
-        tokenURIs.remove(tokenId);
+    protected void registerInterface(String interfaceName) {
+        require(interfaceName != null, "invalid interface name");
+        supportedInterfaces.add(interfaceName);
     }
 }

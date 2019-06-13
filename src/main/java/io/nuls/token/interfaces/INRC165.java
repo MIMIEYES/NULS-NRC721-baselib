@@ -24,15 +24,13 @@
 
 package io.nuls.token.interfaces;
 
-import io.nuls.contract.sdk.Address;
-
-import java.math.BigInteger;
-
 /**
  * @author: PierreLuo
  * @date: 2019-06-13
  */
-public interface NRC721TokenReceiver {
-
-    boolean onNRC721Received(Address operator, Address from, BigInteger tokenId, String data);
+public interface INRC165 {
+    /**
+     * interfaceName: ['INRC165', 'INRC721', 'INRC721Enumerable', 'INRC721Metadata']
+     */
+    boolean supportsInterface(String interfaceName);
 }

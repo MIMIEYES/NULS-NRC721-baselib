@@ -45,6 +45,10 @@ public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerabl
     private LinkedList<BigInteger> allTokens = new LinkedList<BigInteger>();
     private Map<BigInteger, Integer> allTokensIndex = new HashMap<BigInteger, Integer>();
 
+    public NRC721EnumerableBase() {
+        super.registerInterface("INRC721Enumerable");
+    }
+
     @Override
     @View
     public int totalSupply() {
