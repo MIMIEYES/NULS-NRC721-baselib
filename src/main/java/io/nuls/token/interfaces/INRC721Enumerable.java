@@ -34,10 +34,30 @@ import java.math.BigInteger;
  * @date: 2019-06-04
  */
 public interface INRC721Enumerable {
+    /**
+     * Count NFTs tracked by this contract
+     * @return A count of valid NFTs tracked by this contract, where each one of
+     *         them has an assigned and queryable owner
+     */
     @View
     int totalSupply();
-    @View
-    BigInteger tokenOfOwnerByIndex(Address owner, int index);
+
+    /**
+     * Enumerate valid NFTs
+     * @param index A counter less than `totalSupply()`
+     * @return The token identifier for the `index` NFT,
+     *  (sort order not specified), NULL if `index` >= `totalSupply()`.
+     */
     @View
     BigInteger tokenByIndex(int index);
+
+    /**
+     * Enumerate NFTs assigned to an owner
+     * @param owner An address where we are interested in NFTs owned by them
+     * @param index A counter less than `balanceOf(_owner)`
+     * @return The token identifier for the `index` NFT assigned to `owner`,
+     *   (sort order not specified), NULL if `index` >= `balanceOf(owner)` or invalid NFTs.
+     */
+    @View
+    BigInteger tokenOfOwnerByIndex(Address owner, int index);
 }

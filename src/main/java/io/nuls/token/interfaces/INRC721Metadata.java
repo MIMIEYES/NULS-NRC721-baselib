@@ -33,10 +33,22 @@ import java.math.BigInteger;
  * @date: 2019-06-04
  */
 public interface INRC721Metadata {
+    /**
+     * @return A descriptive name for a collection of NFTs in this contract
+     */
     @View
     String name() ;
+
+    /**
+     * @return An abbreviated name for NFTs in this contract
+     */
     @View
     String symbol() ;
+
+    /**
+     * @return A distinct Uniform Resource Identifier (URI) for a given asset.
+     *         NULL if `tokenId` is not a valid NFT.
+     */
     @View
     String tokenURI(BigInteger tokenId) ;
 }

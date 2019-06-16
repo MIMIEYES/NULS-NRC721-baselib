@@ -30,7 +30,10 @@ package io.nuls.token.interfaces;
  */
 public interface INRC165 {
     /**
-     * interfaceName: ['INRC165', 'INRC721', 'INRC721Enumerable', 'INRC721Metadata']
+     * Query if a contract implements an interface
+     * @param interfaceName The interface name, as specified in the implementation class of NRC-165.
+     *                      eg. interfaceName: ['INRC165', 'INRC721', 'INRC721Enumerable', 'INRC721Metadata']
+     * @return `true` if the contract implements `interfaceName`, `false` otherwise
      */
     boolean supportsInterface(String interfaceName);
 }

@@ -34,5 +34,17 @@ import java.math.BigInteger;
  */
 public interface INRC721TokenReceiver {
 
+    /**
+     * Handle the receipt of an NFT.
+     * The NRC721 smart contract calls this function on the recipient
+     *  after a `transfer`. This function MAY revert and reject the
+     *  transfer.
+     *  Note: the contract address is always the message sender.
+     * @param operator The address which called `safeTransferFrom` function
+     * @param from The address which previously owned the token
+     * @param tokenId The NFT identifier which is being transferred
+     * @param data Additional data with no specified format
+     * @return `true` if it accepts NFTs from other contracts, otherwise `false`
+     */
     boolean onNRC721Received(Address operator, Address from, BigInteger tokenId, String data);
 }
