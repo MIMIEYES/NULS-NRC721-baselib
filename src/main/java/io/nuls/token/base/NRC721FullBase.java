@@ -25,7 +25,6 @@ package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.annotation.View;
-import io.nuls.token.interfaces.INRC721Metadata;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -35,33 +34,31 @@ import static io.nuls.contract.sdk.Utils.require;
 
 /**
  * @author: PierreLuo
- * @date: 2019-06-05
+ * @date: 2019-06-25
  */
-public class NRC721MetadataBase extends NRC721Base implements INRC721Metadata {
+public class NRC721FullBase extends NRC721EnumerableBase {
 
     private String name;
     private String symbol;
     private Map<BigInteger, String> tokenURIs = new HashMap<BigInteger, String>();
 
-    public NRC721MetadataBase(String name, String symbol) {
+    public NRC721FullBase(String name, String symbol) {
+        // 由于Java没有多继承，所以挑选实现逻辑较少的INRC721Metadata在Full类里重新实现一次
         super.registerInterface("INRC721Metadata");
         this.name = name;
         this.symbol = symbol;
     }
 
-    @Override
     @View
     public String name() {
         return name;
     }
 
-    @Override
     @View
     public String symbol() {
         return symbol;
     }
 
-    @Override
     @View
     public String tokenURI(BigInteger tokenId) {
         require(exists(tokenId), "NRC721Metadata: URI query for nonexistent token");
