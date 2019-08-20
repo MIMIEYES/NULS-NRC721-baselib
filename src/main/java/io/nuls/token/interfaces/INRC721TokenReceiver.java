@@ -25,6 +25,7 @@
 package io.nuls.token.interfaces;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 
 import java.math.BigInteger;
 
@@ -46,5 +47,5 @@ public interface INRC721TokenReceiver {
      * @param data Additional data with no specified format
      * @return `true` if it accepts NFTs from other contracts, otherwise `false`
      */
-    boolean onNRC721Received(Address operator, Address from, BigInteger tokenId, String data);
+    boolean onNRC721Received(@Required Address operator, @Required Address from, @Required BigInteger tokenId, @Required String data);
 }

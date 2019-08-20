@@ -24,6 +24,7 @@
 
 package io.nuls.token.interfaces;
 
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 
 import java.math.BigInteger;
@@ -50,5 +51,5 @@ public interface INRC721Metadata {
      *         NULL if `tokenId` is not a valid NFT.
      */
     @View
-    String tokenURI(BigInteger tokenId) ;
+    String tokenURI(@Required BigInteger tokenId) ;
 }

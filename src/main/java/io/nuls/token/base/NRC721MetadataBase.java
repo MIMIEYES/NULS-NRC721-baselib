@@ -24,6 +24,7 @@
 package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 import io.nuls.token.interfaces.INRC721Metadata;
 
@@ -43,7 +44,7 @@ public class NRC721MetadataBase extends NRC721Base implements INRC721Metadata {
     private String symbol;
     private Map<BigInteger, String> tokenURIs = new HashMap<BigInteger, String>();
 
-    public NRC721MetadataBase(String name, String symbol) {
+    public NRC721MetadataBase(@Required String name, @Required String symbol) {
         super.registerInterface("INRC721Metadata");
         this.name = name;
         this.symbol = symbol;
@@ -63,7 +64,7 @@ public class NRC721MetadataBase extends NRC721Base implements INRC721Metadata {
 
     @Override
     @View
-    public String tokenURI(BigInteger tokenId) {
+    public String tokenURI(@Required BigInteger tokenId) {
         require(exists(tokenId), "NRC721Metadata: URI query for nonexistent token");
         return tokenURIs.get(tokenId);
     }

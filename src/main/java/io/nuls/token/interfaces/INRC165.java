@@ -24,6 +24,9 @@
 
 package io.nuls.token.interfaces;
 
+import io.nuls.contract.sdk.annotation.Required;
+import io.nuls.contract.sdk.annotation.View;
+
 /**
  * @author: PierreLuo
  * @date: 2019-06-13
@@ -35,5 +38,6 @@ public interface INRC165 {
      *                      eg. interfaceName: ['INRC165', 'INRC721', 'INRC721Enumerable', 'INRC721Metadata']
      * @return `true` if the contract implements `interfaceName`, `false` otherwise
      */
-    boolean supportsInterface(String interfaceName);
+    @View
+    boolean supportsInterface(@Required String interfaceName);
 }

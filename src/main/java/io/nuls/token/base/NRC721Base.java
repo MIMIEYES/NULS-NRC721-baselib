@@ -25,6 +25,7 @@ package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Msg;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 import io.nuls.token.interfaces.INRC721;
 import io.nuls.token.model.Counter;
@@ -53,7 +54,7 @@ public class NRC721Base extends NRC165Base implements INRC721 {
 
     @Override
     @View
-    public int balanceOf(Address owner) {
+    public int balanceOf(@Required Address owner) {
         Counter balance = ownedTokensCount.get(owner);
         if(balance == null) {
             return 0;
@@ -63,14 +64,14 @@ public class NRC721Base extends NRC165Base implements INRC721 {
 
     @Override
     @View
-    public Address ownerOf(BigInteger tokenId) {
+    public Address ownerOf(@Required BigInteger tokenId) {
         Address address = tokenOwner.get(tokenId);
         require(address != null, "NRC721: owner query for nonexistent token");
         return address;
     }
 
     @Override
-    public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
+    public void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId, @Required String data) {
         transferFrom(from, to, tokenId);
         // checkOnNRC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onNRC721Received`函数 / data 的作用是附加备注
         require(checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non NRC721Receiver implementer");
@@ -78,19 +79,19 @@ public class NRC721Base extends NRC165Base implements INRC721 {
     }
 
     @Override
-    public void safeTransferFrom(Address from, Address to, BigInteger tokenId) {
+    public void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId) {
         safeTransferFrom(from, to, tokenId, "");
     }
 
     @Override
-    public void transferFrom(Address from, Address to, BigInteger tokenId) {
+    public void transferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId) {
         require(isApprovedOrOwner(Msg.sender(), tokenId), "NRC721: transfer caller is not owner nor approved");
 
         transferFromBase(from, to, tokenId);
     }
 
     @Override
-    public void approve(Address to, BigInteger tokenId) {
+    public void approve(@Required Address to, @Required BigInteger tokenId) {
         Address owner = ownerOf(tokenId);
         require(!to.equals(owner), "NRC721: approval to current owner");
 
@@ -103,7 +104,7 @@ public class NRC721Base extends NRC165Base implements INRC721 {
     }
 
     @Override
-    public void setApprovalForAll(Address operator, boolean approved) {
+    public void setApprovalForAll(@Required Address operator, @Required boolean approved) {
         Address sender = Msg.sender();
         require(!operator.equals(sender), "NRC721: approve to caller");
 
@@ -118,7 +119,7 @@ public class NRC721Base extends NRC165Base implements INRC721 {
 
     @Override
     @View
-    public Address getApproved(BigInteger tokenId) {
+    public Address getApproved(@Required BigInteger tokenId) {
         require(exists(tokenId), "NRC721: approved query for nonexistent token");
 
         return tokenApprovals.get(tokenId);
@@ -126,7 +127,7 @@ public class NRC721Base extends NRC165Base implements INRC721 {
 
     @Override
     @View
-    public boolean isApprovedForAll(Address owner, Address operator) {
+    public boolean isApprovedForAll(@Required Address owner, @Required Address operator) {
         Map<Address, Boolean> approvalsMap = operatorApprovals.get(owner);
         if(approvalsMap == null) {
             return false;

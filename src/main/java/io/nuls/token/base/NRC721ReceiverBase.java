@@ -25,6 +25,7 @@ package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Msg;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.token.interfaces.INRC721TokenReceiver;
 import io.nuls.token.model.NRC721TransferRecord;
 
@@ -47,7 +48,7 @@ public class NRC721ReceiverBase implements INRC721TokenReceiver {
     private Map<Address, Map<BigInteger, NRC721TransferRecord>> nrc721tokenMap = new HashMap<Address, Map<BigInteger, NRC721TransferRecord>>();
 
     @Override
-    public boolean onNRC721Received(Address operator, Address from, BigInteger tokenId, String data) {
+    public boolean onNRC721Received(@Required Address operator, @Required Address from, @Required BigInteger tokenId, @Required String data) {
         Address nrc721 = Msg.sender();
         if (!nrc721.isContract()) {
             return false;
@@ -68,7 +69,7 @@ public class NRC721ReceiverBase implements INRC721TokenReceiver {
         return true;
     }
 
-    public void transferOtherNRC721(Address nrc721, Address to, BigInteger tokenId) {
+    public void transferOtherNRC721(@Required Address nrc721, @Required Address to, @Required BigInteger tokenId) {
         require(!Msg.address().equals(nrc721), "Do nothing by yourself");
         require(nrc721.isContract(), "[" + nrc721.toString() + "] is not contract address");
         Map<BigInteger, NRC721TransferRecord> map = nrc721tokenMap.get(nrc721);

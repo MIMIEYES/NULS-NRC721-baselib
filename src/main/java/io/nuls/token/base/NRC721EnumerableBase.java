@@ -24,6 +24,7 @@
 package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 import io.nuls.token.interfaces.INRC721Enumerable;
 
@@ -57,7 +58,7 @@ public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerabl
 
     @Override
     @View
-    public BigInteger tokenOfOwnerByIndex(Address owner, int index) {
+    public BigInteger tokenOfOwnerByIndex(@Required Address owner, @Required int index) {
         require(index < balanceOf(owner), "NRC721Enumerable: owner index out of bounds");
         LinkedList<BigInteger> tokens = ownedTokens.get(owner);
         if(tokens == null) {
@@ -68,13 +69,13 @@ public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerabl
 
     @Override
     @View
-    public BigInteger tokenByIndex(int index) {
+    public BigInteger tokenByIndex(@Required int index) {
         require(index < totalSupply(), "NRC721Enumerable: global index out of bounds");
         return allTokens.get(index);
     }
 
     @Override
-    public void transferFrom(Address from, Address to, BigInteger tokenId) {
+    public void transferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId) {
         super.transferFrom(from, to, tokenId);
 
         removeTokenFromOwnerEnumeration(from, tokenId);
@@ -83,12 +84,12 @@ public class NRC721EnumerableBase extends NRC721Base implements INRC721Enumerabl
     }
 
     @Override
-    public void safeTransferFrom(Address from, Address to, BigInteger tokenId) {
+    public void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId) {
         this.safeTransferFrom(from, to, tokenId, "");
     }
 
     @Override
-    public void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data) {
+    public void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId, @Required String data) {
         this.transferFrom(from, to, tokenId);
         // checkOnERC721Received 的作用是当to是合约地址时，那么to这个合约必须实现`onERC721Received`函数 / data 的作用是附加备注
         require(super.checkOnNRC721Received(from, to, tokenId, data), "NRC721: transfer to non ERC721Receiver implementer");

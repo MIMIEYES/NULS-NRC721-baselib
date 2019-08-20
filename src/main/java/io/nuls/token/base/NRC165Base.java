@@ -42,12 +42,12 @@ public class NRC165Base extends Minter implements INRC165 {
     private Set<String> supportedInterfaces = new HashSet<String>();
 
     public NRC165Base() {
-        supportedInterfaces.add("INCR165");
+        supportedInterfaces.add("INRC165");
     }
 
     @Override
     @View
-    public boolean supportsInterface(String interfaceName) {
+    public boolean supportsInterface(@Required String interfaceName) {
         return supportedInterfaces.contains(interfaceName);
     }
 

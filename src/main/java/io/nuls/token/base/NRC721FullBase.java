@@ -24,6 +24,7 @@
 package io.nuls.token.base;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 
 import java.math.BigInteger;
@@ -60,7 +61,7 @@ public class NRC721FullBase extends NRC721EnumerableBase {
     }
 
     @View
-    public String tokenURI(BigInteger tokenId) {
+    public String tokenURI(@Required BigInteger tokenId) {
         require(exists(tokenId), "NRC721Metadata: URI query for nonexistent token");
         return tokenURIs.get(tokenId);
     }

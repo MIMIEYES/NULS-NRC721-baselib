@@ -26,6 +26,7 @@ package io.nuls.token.interfaces;
 
 import io.nuls.contract.sdk.Address;
 import io.nuls.contract.sdk.Event;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 
 import java.math.BigInteger;
@@ -42,7 +43,7 @@ public interface INRC721 {
      * @return The number of NFTs owned by `owner`, possibly zero
      */
     @View
-    int balanceOf(Address owner);
+    int balanceOf(@Required Address owner);
 
     /**
      * Find the owner of an NFT
@@ -50,7 +51,7 @@ public interface INRC721 {
      * @return The address of the owner of the NFT
      */
     @View
-    Address ownerOf(BigInteger tokenId);
+    Address ownerOf(@Required BigInteger tokenId);
 
     /**
      * Transfers the ownership of an NFT from one address to another address.
@@ -65,7 +66,7 @@ public interface INRC721 {
      * @param tokenId The NFT to transfer
      * @param data Additional data with no specified format, sent in call to `to`
      */
-    void safeTransferFrom(Address from, Address to, BigInteger tokenId, String data);
+    void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId, @Required String data);
 
     /**
      * Transfers the ownership of an NFT from one address to another address.
@@ -75,7 +76,7 @@ public interface INRC721 {
      * @param to The new owner
      * @param tokenId The NFT to transfer
      */
-    void safeTransferFrom(Address from, Address to, BigInteger tokenId);
+    void safeTransferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId);
 
     /**
      * Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
@@ -89,7 +90,7 @@ public interface INRC721 {
      * @param to The new owner
      * @param tokenId The NFT to transfer
      */
-    void transferFrom(Address from, Address to, BigInteger tokenId);
+    void transferFrom(@Required Address from, @Required Address to, @Required BigInteger tokenId);
 
     /**
      * Change or reaffirm the approved address for an NFT
@@ -98,7 +99,7 @@ public interface INRC721 {
      * @param approved The new approved NFT controller
      * @param tokenId The NFT to approve
      */
-    void approve(Address to, BigInteger tokenId);
+    void approve(@Required Address to, @Required BigInteger tokenId);
 
     /**
      * Enable or disable approval for a third party ("operator") to manage
@@ -107,7 +108,7 @@ public interface INRC721 {
      * @param operator Address to add to the set of authorized operators
      * @param approved True if the operator is approved, false to revoke approval
      */
-    void setApprovalForAll(Address operator, boolean approved);
+    void setApprovalForAll(@Required Address operator, @Required boolean approved);
 
     /**
      * Get the approved address for a single NFT.
@@ -115,7 +116,8 @@ public interface INRC721 {
      * @param tokenId The NFT to find the approved address for
      * @return The approved address for this NFT.
      */
-    Address getApproved(BigInteger tokenId);
+    @View
+    Address getApproved(@Required BigInteger tokenId);
 
     /**
      * Query if an address is an authorized operator for another address
@@ -124,7 +126,7 @@ public interface INRC721 {
      * @return True if `operator` is an approved operator for `owner`, false otherwise
      */
     @View
-    boolean isApprovedForAll(Address owner, Address operator);
+    boolean isApprovedForAll(@Required Address owner, @Required Address operator);
 
     /**
      * This emits when ownership of any NFT changes by any mechanism.
@@ -137,7 +139,7 @@ public interface INRC721 {
         private Address to;
         private BigInteger tokenId;
 
-        public Transfer(Address from, Address to, BigInteger tokenId) {
+        public Transfer(Address from, Address to, @Required BigInteger tokenId) {
             this.from = from;
             this.to = to;
             this.tokenId = tokenId;
@@ -166,39 +168,6 @@ public interface INRC721 {
         public void setTokenId(BigInteger tokenId) {
             this.tokenId = tokenId;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Transfer that = (Transfer) o;
-
-            if (from != null ? !from.equals(that.from) : that.from != null) return false;
-            if (to != null ? !to.equals(that.to) : that.to != null) return false;
-            return tokenId != null ? tokenId.equals(that.tokenId) : that.tokenId == null;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = from != null ? from.hashCode() : 0;
-            result = 31 * result + (to != null ? to.hashCode() : 0);
-            result = 31 * result + (tokenId != null ? tokenId.hashCode() : 0);
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("{");
-            sb.append("\"from\":")
-                    .append('\"').append(from).append('\"');
-            sb.append(",\"to\":")
-                    .append('\"').append(to).append('\"');
-            sb.append(",\"tokenId\":")
-                    .append('\"').append(tokenId).append('\"');
-            sb.append('}');
-            return sb.toString();
-        }
     }
 
     /**
@@ -210,7 +179,7 @@ public interface INRC721 {
         private Address approved;
         private BigInteger tokenId;
 
-        public Approval(Address owner, Address approved, BigInteger tokenId) {
+        public Approval(@Required Address owner, @Required Address approved, @Required BigInteger tokenId) {
             this.owner = owner;
             this.approved = approved;
             this.tokenId = tokenId;
@@ -239,41 +208,6 @@ public interface INRC721 {
         public void setTokenId(BigInteger tokenId) {
             this.tokenId = tokenId;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Approval approval = (Approval) o;
-
-            if (owner != null ? !owner.equals(approval.owner) : approval.owner != null) return false;
-            if (approved != null ? !approved.equals(approval.approved) : approval.approved != null) return false;
-            if (tokenId != null ? !tokenId.equals(approval.tokenId) : approval.tokenId != null) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = owner != null ? owner.hashCode() : 0;
-            result = 31 * result + (approved != null ? approved.hashCode() : 0);
-            result = 31 * result + (tokenId != null ? tokenId.hashCode() : 0);
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("{");
-            sb.append("\"owner\":")
-                    .append('\"').append(owner).append('\"');
-            sb.append(",\"approved\":")
-                    .append('\"').append(approved).append('\"');
-            sb.append(",\"tokenId\":")
-                    .append('\"').append(tokenId).append('\"');
-            sb.append('}');
-            return sb.toString();
-        }
     }
 
     /**
@@ -285,7 +219,7 @@ public interface INRC721 {
         private Address operator;
         private Boolean approved;
 
-        public ApprovalForAll(Address owner, Address operator, Boolean approved) {
+        public ApprovalForAll(@Required Address owner, @Required Address operator, @Required Boolean approved) {
             this.owner = owner;
             this.operator = operator;
             this.approved = approved;
@@ -313,41 +247,6 @@ public interface INRC721 {
 
         public void setApproved(Boolean approved) {
             this.approved = approved;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            ApprovalForAll that = (ApprovalForAll) o;
-
-            if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
-            if (operator != null ? !operator.equals(that.operator) : that.operator != null) return false;
-            if (approved != null ? !approved.equals(that.approved) : that.approved != null) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = owner != null ? owner.hashCode() : 0;
-            result = 31 * result + (operator != null ? operator.hashCode() : 0);
-            result = 31 * result + (approved != null ? approved.hashCode() : 0);
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("{");
-            sb.append("\"owner\":")
-                    .append('\"').append(owner).append('\"');
-            sb.append(",\"operator\":")
-                    .append('\"').append(operator).append('\"');
-            sb.append(",\"approved\":")
-                    .append(approved);
-            sb.append('}');
-            return sb.toString();
         }
     }
 }

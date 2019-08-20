@@ -25,6 +25,7 @@
 package io.nuls.token.interfaces;
 
 import io.nuls.contract.sdk.Address;
+import io.nuls.contract.sdk.annotation.Required;
 import io.nuls.contract.sdk.annotation.View;
 
 import java.math.BigInteger;
@@ -49,7 +50,7 @@ public interface INRC721Enumerable {
      *  (sort order not specified), NULL if `index` >= `totalSupply()`.
      */
     @View
-    BigInteger tokenByIndex(int index);
+    BigInteger tokenByIndex(@Required int index);
 
     /**
      * Enumerate NFTs assigned to an owner
@@ -59,5 +60,5 @@ public interface INRC721Enumerable {
      *   (sort order not specified), NULL if `index` >= `balanceOf(owner)` or invalid NFTs.
      */
     @View
-    BigInteger tokenOfOwnerByIndex(Address owner, int index);
+    BigInteger tokenOfOwnerByIndex(@Required Address owner, @Required int index);
 }
