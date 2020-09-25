@@ -12,7 +12,12 @@
         <dependency>
             <groupId>io.nuls.sdk</groupId>
             <artifactId>sdk-contract-vm</artifactId>
-            <version>2.0-beta1</version>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>io.nuls.v2</groupId>
+            <artifactId>off-smartcontract-api</artifactId>
+            <version>LATEST</version>
         </dependency>
     </dependencies>
 
@@ -27,6 +32,29 @@
                     <target>1.6</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>io.nuls.contract.ContractApplication</mainClass>
+                            <arguments>
+                                <argument>${project.build.directory}</argument>
+                                <!-- server port -->
+                                <argument>18081</argument>
+                                <!-- whether to launch the server -->
+                                <argument>true</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
